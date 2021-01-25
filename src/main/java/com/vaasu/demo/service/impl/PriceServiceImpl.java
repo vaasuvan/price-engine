@@ -7,6 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PriceServiceImpl implements PriceService {
 
@@ -32,11 +37,26 @@ public class PriceServiceImpl implements PriceService {
             //calculate without carton and discount price
             ultimatePrice = quantity * unitPrice;
         }
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        df2.setRoundingMode(RoundingMode.UP);
         PriceDto priceDto = new PriceDto();
         priceDto.setProductName(product.getProductName());
-        priceDto.setUltimatePrice(String.valueOf(ultimatePrice));
+        priceDto.setUltimatePrice(String.valueOf(df2.format(ultimatePrice)));
         logger.info("Calculated price >>>{}", ultimatePrice);
         return priceDto;
     }
 
+    @Override
+    public List<PriceDto> calculatePriceOfFifty(Product product, Long quantity) {
+        List<PriceDto> priceDtos = new ArrayList<>();
+        for (long i = 1; i < quantity + 1; i++) {
+            PriceDto priceDto = calculatePrice(product, i);
+            priceDto.setQuantity(i);
+            priceDtos.add(priceDto);
+            priceDto.setCartonPrice(product.getCartonPrice());
+            priceDto.setProductName(product.getProductName());
+            priceDto.setNumberOfUnitInCarton(product.getNumberOfUnitInCarton());
+        }
+        return priceDtos;
+    }
 }
