@@ -41,7 +41,7 @@ public class PriceServiceImpl implements PriceService {
         df2.setRoundingMode(RoundingMode.UP);
         PriceDto priceDto = new PriceDto();
         priceDto.setProductName(product.getProductName());
-        priceDto.setUltimatePrice(String.valueOf(df2.format(ultimatePrice)));
+        priceDto.setUltimatePrice(Double.valueOf(df2.format(ultimatePrice)));
         logger.info("Calculated price >>>{}", ultimatePrice);
         return priceDto;
     }

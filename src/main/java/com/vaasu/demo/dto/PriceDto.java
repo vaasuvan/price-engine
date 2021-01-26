@@ -4,15 +4,15 @@ import com.vaasu.demo.model.Product;
 
 public class PriceDto extends Product {
 
-    private String ultimatePrice;
+    private Double ultimatePrice;
     private String productName;
     private Long quantity;
 
-    public String getUltimatePrice() {
+    public Double getUltimatePrice() {
         return ultimatePrice;
     }
 
-    public void setUltimatePrice(String ultimatePrice) {
+    public void setUltimatePrice(Double ultimatePrice) {
         this.ultimatePrice = ultimatePrice;
     }
 
